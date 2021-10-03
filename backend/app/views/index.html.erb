@@ -1,0 +1,14 @@
+<%= content_for :head do %>
+  <%= javascript_pack_tag 'index', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+<section class="header">
+  <div class="container">
+    <h1>Products</h1>
+  </div>
+</section>
+<section class="product-list">
+  <div class="container">
+    <div class="grid" id="product-grid"></div>
+  </div>
+</section>
