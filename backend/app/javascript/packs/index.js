@@ -1,27 +1,28 @@
 window.onload = () => {
-  $.get('http://localhost:3000/api/v1/products', (products) => {
-    let html = ``;
-
+  // Fetch Product List
+  $.get('/api/v1/products', (products) => {
+    let proudctsTpl = ``;
     products.forEach((product) => {
       const roundedRating = Math.round(product.average_rating);
-      const ratingTemplate = [...Array(5)].map((e, i) =>
-        `<i class="fas fa-star ${i < roundedRating ? 'active' : ''}"></i>`);
+      const ratingTemplate = getStarsTemplate(roundedRating);
 
-      html += `
+      proudctsTpl += `
         <div class="product-card">
           <a class="product-name" href="/products/${product.id}">
             ${product.name}
           </a>
           <div class="product-rating">
-            <div class="product-rating-number">${product.average_rating}</div>
-            <div class="product-rating-star">
-              ${ratingTemplate.join('')}
+            <div class="product-rating-number">${product.average_rating.toFixed(1)}</div>
+            <div class="product-rating-stars">
+              ${ratingTemplate}
             </div>
           </div>
         </div>
       `;
     });
 
-    $("#product-grid").html(html);
+    $("#productGrid").html(proudctsTpl);
+
+    $("#productListSection").removeClass('hide');
   });
 }

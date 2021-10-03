@@ -4,6 +4,7 @@ class ProductController < ApplicationController
   end
 
   def detail
+    @id = params[:id]
     render '/detail'
   end
 end
