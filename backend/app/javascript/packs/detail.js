@@ -34,4 +34,57 @@ window.onload = () => {
 
     $("#productDetailSection").removeClass('hide');
   });
+
+  // Open Modal
+  $("#addReview").on('click', () => {
+    $("#addReviewModal").addClass('active');
+  });
+
+  // Close Modal
+  $("#addReviewModalBackdrop").on('click', () => {
+    $("#addReviewModal").removeClass('active');
+  });
+
+  const ratingInputStars = $("#review-rating-input").children();
+
+  // set activated rating star
+  const drawRatingStar = (rating) => {
+    ratingInputStars.removeClass('active');
+
+    ratingInputStars.each((index, el) => {
+      if (index <= rating) {
+        $(el).addClass('active');
+      }
+    })
+  }
+
+  // initialize rating input;
+  let selectedRating = -1;
+  let hoveredRating = -1;
+
+  // detect selected rating
+  ratingInputStars.each((index, el) => {
+    $(el).on('mouseenter', () => {
+      hoveredRating = index;
+      drawRatingStar(hoveredRating);
+    }).on('mouseout', () => {
+      hoveredRating = selectedRating;
+      drawRatingStar(hoveredRating);
+    }).click(() => {
+      selectedRating = index;
+      drawRatingStar(selectedRating);
+    })
+  });
+
+  // submit review to the backend
+  window.submitReview = (e) => {
+    e.preventDefault();
+
+    $.post(`/api/v1/products/${id}/review`, {
+      rating: selectedRating + 1,
+      review: $("#review-text-input").val()
+    }, () => {
+      location.reload();
+    })
+  }
 }
