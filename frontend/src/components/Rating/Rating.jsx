@@ -3,7 +3,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons/faStar";
 
 import css from './Rating.module.scss'
 import cn from "classnames";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Rating = ({ onRatingChange, readOnly, rating }) => {
   const [isHovered, setHovered] = useState(false);
@@ -12,11 +12,15 @@ const Rating = ({ onRatingChange, readOnly, rating }) => {
   const roundedRating = Math.round(rating);
 
   const handleMouseEnter = (i) => {
+    if (readOnly) return;
+
     setHovered(true);
     setHoveredRating(i);
   }
 
   const handleMouseLeave = () => {
+    if (readOnly) return;
+
     setHovered(false);
   }
 
