@@ -1,0 +1,31 @@
+* {
+  font-family: "Roboto";
+  max-width: 100%;
+  box-sizing: border-box;
+  line-height: 1.5;
+  outline: none;
+}
+
+html, body {
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+/* Basic Layout */
+.container {
+  width: 1312px;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+
+.header {
+  padding-bottom: 2rem;
+  font-size: 1.5rem;
+}
+
+section {
+  padding: 4rem 0;
+}

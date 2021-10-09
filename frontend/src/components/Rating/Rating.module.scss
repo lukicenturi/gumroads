@@ -1,0 +1,26 @@
+@import './src/styles/color';
+
+.rating {
+  position: relative;
+  color: $gray;
+
+  * { line-height: 1; }
+
+  &--changeable {
+    cursor: pointer;
+  }
+
+  &--placeholder {
+    filter: drop-shadow(0px 1px 0px rgba(0, 0, 0, 0.2));
+  }
+
+  &--active {
+    line-height: 1;
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    color: $orange;
+    filter: drop-shadow(0 1px $dark-orange);
+  }
+}

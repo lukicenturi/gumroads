@@ -1,0 +1,106 @@
+@import './src/styles/color';
+@import './src/styles/breakpoint';
+
+.product {
+  &__detail { padding-top: 7rem; }
+
+  &__container { width: 612px; }
+
+  &__name {
+    font-weight: bold;
+    font-size: 2.75rem;
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    padding: 2.75rem 0;
+    justify-content: space-between;
+
+    @include media-phone {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+
+    @include media-phone { padding-bottom: 1rem; }
+
+    &-number { font-size: 2.75rem; }
+
+    &-stars {
+      font-size: 2rem;
+      padding-left: 1rem;
+    }
+  }
+
+  &__reviews {
+    border-top: 1px solid $border-color;
+    padding-top: 2.5rem;
+
+    &-header {
+      font-weight: bold;
+      font-size: 1.75rem;
+    }
+
+    &-grid {
+      padding-top: 1.875rem;
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      grid-gap: 1.875rem;
+    }
+  }
+
+  &__review {
+    display: flex;
+    align-items: flex-start;
+
+    @include media-phone { flex-direction: column; }
+
+    &-stars {
+      font-size: 2rem;
+    }
+
+    &-text {
+      padding-top: 0.5rem;
+      padding-left: 1.875rem;
+      flex: 1;
+      color: $gray-dark;
+
+      @include media-phone {
+        padding-left: 0;
+        padding-top: 1rem;
+      }
+
+      strong { color: $black; }
+    }
+  }
+}
+
+.form {
+    padding-top: 1.5rem;
+
+  &__group {
+    padding-bottom: 2.5rem;
+  }
+
+  &__label {
+    font-size: 1.5rem;
+    display: flex;
+    margin-bottom: 1.5rem;
+  }
+
+  &__input {
+    width: 100%;
+    border: 0;
+    font-size: 1.5rem;
+
+    &-rating {
+      font-size: 2rem;
+    }
+  }
+
+}

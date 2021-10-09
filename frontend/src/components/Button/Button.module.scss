@@ -1,0 +1,22 @@
+@import '../../styles/color';
+@import '../../styles/box-shadow';
+
+.btn {
+  border-radius: 0.5rem;
+  border: 1px solid $border-color;
+  box-shadow: $box-shadow;
+  padding: 0.75rem 1.5em;
+  background: $white;
+  color: $gray-dark;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s ease all;
+
+  &:hover {
+      background: $orange;
+      border: 1px solid $orange;
+      color: $black;
+  }
+}
+
