@@ -6,6 +6,7 @@ import Rating from "../../components/Rating/Rating";
 import Button from "../../components/Button/Button";
 import cn from "classnames";
 import Modal from "../../components/Modal/Modal";
+import { ActionCable } from 'react-actioncable-provider';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -52,73 +53,83 @@ const ProductDetail = () => {
     }));
   }
 
+  const handleReceivedProduct = (response) => {
+    const { product } = response;
+    setProduct(product);
+  }
+
   if (!product) return null;
 
   return (
-    <section className={css.product__detail}>
-      <div className={cn(css.product__container, 'container')}>
-        <div className={css.product__name}>{product.name}</div>
+    <>
+      <ActionCable channel={{ channel: 'ProductChannel', id: product.id }}
+                   onReceived={handleReceivedProduct}
+      />
+      <section className={css.product__detail}>
+        <div className={cn(css.product__container, 'container')}>
+          <div className={css.product__name}>{product.name}</div>
 
-        <div className={css.product__info}>
-          <div className={css.product__rating}>
-            <div className={css['product__rating-number']}>
-              {product.average_rating}
+          <div className={css.product__info}>
+            <div className={css.product__rating}>
+              <div className={css['product__rating-number']}>
+                {product.average_rating}
+              </div>
+              <div className={css['product__rating-stars']}>
+                <Rating readOnly rating={product.average_rating} />
+              </div>
             </div>
-            <div className={css['product__rating-stars']}>
-              <Rating readOnly rating={product.average_rating} />
-            </div>
+            <Button onClick={addReviewHandler}>
+              Add Review
+            </Button>
           </div>
-          <Button onClick={addReviewHandler}>
-            Add Review
-          </Button>
-        </div>
 
-        <div className={css.product__reviews}>
-          <div className={css['product__reviews-header']}>
-            Reviews
-          </div>
-          <div className={css['product__reviews-grid']}>
-            {product.product_reviews.map((review) => {
-              return (
-                <div key={review.id} className={css.product__review}>
-                  <div className={css['product__review-stars']}>
-                    <Rating readOnly rating={review.rating} />
+          <div className={css.product__reviews}>
+            <div className={css['product__reviews-header']}>
+              Reviews
+            </div>
+            <div className={css['product__reviews-grid']}>
+              {product.product_reviews.map((review) => {
+                return (
+                  <div key={review.id} className={css.product__review}>
+                    <div className={css['product__review-stars']}>
+                      <Rating readOnly rating={review.rating} />
+                    </div>
+                    <div className={css['product__review-text']}>
+                      <strong>{review.rating}</strong>, &nbsp;
+                      {review.review}
+                    </div>
                   </div>
-                  <div className={css['product__review-text']}>
-                    <strong>{review.rating}</strong>, &nbsp;
-                    {review.review}
-                  </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
         </div>
-      </div>
-      <Modal isVisible={showModal} title="What's your rating?" onClose={() => setShowModal(false)}>
-        <form className={css.form} onSubmit={submitHandler}>
-          <div className={css.form__group}>
-            <label className={css.form__label}>Rating</label>
-            <div className={css['form__input-rating']}>
-              <Rating rating={formValues.rating}
-                      onRatingChange={(val) => inputChangeHandler('rating', val)}
+        <Modal isVisible={showModal} title="What's your rating?" onClose={() => setShowModal(false)}>
+          <form className={css.form} onSubmit={submitHandler}>
+            <div className={css.form__group}>
+              <label className={css.form__label}>Rating</label>
+              <div className={css['form__input-rating']}>
+                <Rating rating={formValues.rating}
+                        onRatingChange={(val) => inputChangeHandler('rating', val)}
+                />
+              </div>
+            </div>
+            <div className={css.form__group}>
+              <label className={css.form__label} htmlFor="review-text-input">Review</label>
+              <textarea id="review-text-input"
+                        className={css.form__input}
+                        placeholder="Start typing..."
+                        value={formValues.review}
+                        onChange={(event) => inputChangeHandler('review', event.target.value)}
               />
             </div>
-          </div>
-          <div className={css.form__group}>
-            <label className={css.form__label} htmlFor="review-text-input">Review</label>
-            <textarea id="review-text-input"
-                      className={css.form__input}
-                      placeholder="Start typing..."
-                      value={formValues.review}
-                      onChange={(event) => inputChangeHandler('review', event.target.value)}
-            />
-          </div>
-          <div>
-            <Button disabled={loading}>Submit Review</Button>
-          </div>
-        </form>
-      </Modal>
-    </section>
+            <div>
+              <Button disabled={loading}>Submit Review</Button>
+            </div>
+          </form>
+        </Modal>
+      </section>
+    </>
   )
 }
 
