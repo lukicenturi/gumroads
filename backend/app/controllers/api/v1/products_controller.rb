@@ -16,10 +16,24 @@ class Api::V1::ProductsController < ApplicationApiController
   def create
     product = Product.new(product_params)
     if product.save
+      self.broadcastProducts
       render json:product, status: 200
     else
       render json: {error: "Create Product Error."}
     end
+  end
+
+  def self.broadcastProducts
+    products = Product.all
+    ActionCable.server.broadcast 'products_channel', products
+  end
+
+  def self.broadcastProduct(id)
+    product = Product.find_by(id: id)
+    serialized_data = ActiveModelSerializers::Adapter::Json.new(
+      ProductSerializer.new(product)
+    ).serializable_hash
+    ProductChannel.broadcast_to product, serialized_data
   end
 
   private
