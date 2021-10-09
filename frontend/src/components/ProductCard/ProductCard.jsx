@@ -9,7 +9,7 @@ const ProductCard = ({ product }) => {
         {product.name}
       </Link>
       <div className={css.product__rating}>
-        <div>{product.average_rating}</div>
+        <div>{product.average_rating.toFixed(1)}</div>
         <div className={css['product__rating-star']}>
           <Rating readOnly rating={product.average_rating} />
         </div>

@@ -53,8 +53,8 @@ const ProductDetail = () => {
     }));
   }
 
-  const handleReceivedProduct = (response) => {
-    const { product } = response;
+  const handleReceivedProduct = ({ product }) => {
+    console.log(product);
     setProduct(product);
   }
 
@@ -72,7 +72,7 @@ const ProductDetail = () => {
           <div className={css.product__info}>
             <div className={css.product__rating}>
               <div className={css['product__rating-number']}>
-                {product.average_rating}
+                {product.average_rating.toFixed(1)}
               </div>
               <div className={css['product__rating-stars']}>
                 <Rating readOnly rating={product.average_rating} />
