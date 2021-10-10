@@ -54,7 +54,6 @@ const ProductDetail = () => {
   }
 
   const handleReceivedProduct = ({ product }) => {
-    console.log(product);
     setProduct(product);
   }
 
